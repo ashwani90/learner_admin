@@ -14,13 +14,29 @@ const dashboard = {
     type: 'group',
     children: [
         {
-            id: 'dashboard',
-            title: 'Dashboard',
+            id: 'home',
+            title: 'Home',
             type: 'item',
-            url: '/dashboard/default',
+            url: '/',
             icon: icons.DashboardOutlined,
             breadcrumbs: false
-        }
+        },
+        {
+            id: 'docs',
+            title: 'Docs',
+            type: 'item',
+            url: '/docs',
+            icon: icons.DashboardOutlined,
+            breadcrumbs: false
+        },
+        {
+            id: 'settings',
+            title: 'Settings',
+            type: 'item',
+            url: '/settings',
+            icon: icons.DashboardOutlined,
+            breadcrumbs: false
+        },
     ]
 };
 

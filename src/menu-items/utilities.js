@@ -48,7 +48,7 @@ const utilities = {
         },
         {
             id: 'ant-icons',
-            title: 'Ant Icons',
+            title: 'Ant Icons 2',
             type: 'item',
             url: '/icons/ant',
             icon: icons.AntDesignOutlined,
