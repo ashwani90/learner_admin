@@ -8,6 +8,7 @@ import MainLayout from 'layout/MainLayout';
 const HomeDefault = Loadable(lazy(() => import('pages/home')));
 const Docs = Loadable(lazy(() => import('pages/docs')));
 const Settings = Loadable(lazy(() => import('pages/settings')));
+const DocAnalysis = Loadable(lazy(() => import('pages/doc-analysis')));
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
 
 // render - sample page
@@ -36,6 +37,10 @@ const MainRoutes = {
         {
             path: 'settings',
             element: <Settings />
+        },
+        {
+            path: 'analysis',
+            element: <DocAnalysis />
         },
         {
             path: 'dashboard',

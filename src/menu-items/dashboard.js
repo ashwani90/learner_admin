@@ -30,6 +30,14 @@ const dashboard = {
             breadcrumbs: false
         },
         {
+            id: 'doc-analysis',
+            title: 'Doc Analysis',
+            type: 'item',
+            url: '/analysis',
+            icon: icons.DashboardOutlined,
+            breadcrumbs: false
+        },
+        {
             id: 'settings',
             title: 'Settings',
             type: 'item',
