@@ -1,9 +1,13 @@
 // assets
-import { DashboardOutlined } from '@ant-design/icons';
+import { DashboardOutlined, BookOutlined, SettingOutlined, FileOutlined, FileWordOutlined } from '@ant-design/icons';
 
 // icons
 const icons = {
-    DashboardOutlined
+    DashboardOutlined,
+    BookOutlined,
+    SettingOutlined,
+    FileOutlined,
+    FileWordOutlined
 };
 
 // ==============================|| MENU ITEMS - DASHBOARD ||============================== //
@@ -26,7 +30,7 @@ const dashboard = {
             title: 'Docs',
             type: 'item',
             url: '/docs',
-            icon: icons.DashboardOutlined,
+            icon: icons.FileWordOutlined,
             breadcrumbs: false
         },
         {
@@ -34,7 +38,7 @@ const dashboard = {
             title: 'Doc Analysis',
             type: 'item',
             url: '/analysis',
-            icon: icons.DashboardOutlined,
+            icon: icons.FileOutlined,
             breadcrumbs: false
         },
         {
@@ -42,7 +46,15 @@ const dashboard = {
             title: 'Settings',
             type: 'item',
             url: '/settings',
-            icon: icons.DashboardOutlined,
+            icon: icons.SettingOutlined,
+            breadcrumbs: false
+        },
+        {
+            id: 'logs',
+            title: 'Logs',
+            type: 'item',
+            url: '/logs',
+            icon: icons.BookOutlined,
             breadcrumbs: false
         },
     ]

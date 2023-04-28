@@ -10,6 +10,7 @@ const Docs = Loadable(lazy(() => import('pages/docs')));
 const Settings = Loadable(lazy(() => import('pages/settings')));
 const DocAnalysis = Loadable(lazy(() => import('pages/doc-analysis')));
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
+const Logs = Loadable(lazy(() => import('pages/logs')))
 
 // render - sample page
 const SamplePage = Loadable(lazy(() => import('pages/extra-pages/SamplePage')));
@@ -45,6 +46,10 @@ const MainRoutes = {
         {
             path: 'dashboard',
             element: <DashboardDefault />
+        },
+        {
+            path: 'logs',
+            element: <Logs />
         },
         {
             path: 'color',
