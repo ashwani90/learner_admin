@@ -8,7 +8,7 @@ import avatar4 from 'assets/images/users/avatar-4.png';
 import ImageItem from './imageItem';
 
 
-const BlogItem = ({xs=12,sm=12,md=6,lg=6, isImagePresent=true, ...props}) => {
+const BlogItem = ({xs=12,sm=12,md=6,lg=6, isImagePresent=true, item={}, ...props}) => {
     return (
         
             <Grid item xs={xs} sm={sm} md={md} lg={lg} sx={{ mb: -2.25 }}>
@@ -18,10 +18,10 @@ const BlogItem = ({xs=12,sm=12,md=6,lg=6, isImagePresent=true, ...props}) => {
                             <Grid item>
                                 <Stack>
                                     <Typography variant="h5" noWrap>
-                                        Title
+                                        {item.description}
                                     </Typography>
                                     <Typography variant="caption" color="secondary" noWrap>
-                                        Date
+                                        {item.time_spent}
                                     </Typography>
                                 </Stack>
                             </Grid>
