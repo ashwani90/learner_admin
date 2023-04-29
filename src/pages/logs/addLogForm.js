@@ -22,6 +22,8 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
+import { createLogs } from 'store/reducers/logs';
 
 const style = {
     position: 'absolute',
@@ -35,8 +37,10 @@ const style = {
     p: 4,
   };
 
-const AddLogForm = ({open, handleClose}) => {
-    
+  
+
+const AddLogForm = ({open, handleClose, formModel}) => {
+    const dispatch = useDispatch();
 
     return (
         <Modal
@@ -48,19 +52,21 @@ const AddLogForm = ({open, handleClose}) => {
         <Box sx={style}>
         <Formik
                 initialValues={{
-                    doc_name: '',
-                    category: '',
+                    description: '',
+                    time_spent: '',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
-                    doc_name: Yup.string().max(255).required('Doc Name is required'),
-                    category: Yup.string().max(255).required('Category is required'),
+                    description: Yup.string().max(255).required('Description is required'),
+                    time_spent: Yup.string().max(255).required('Time Spent is required'),
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
                         console.log(values);
                         setStatus({ success: false });
                         setSubmitting(false);
+                        let data = JSON.stringify(values);
+                        dispatch(createLogs(data));
                     } catch (err) {
                         console.error(err);
                         setStatus({ success: false });
@@ -72,70 +78,33 @@ const AddLogForm = ({open, handleClose}) => {
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
                     <form noValidate onSubmit={handleSubmit}>
                         <Grid container spacing={3}>
-                            <Grid item xs={12} md={6}>
+                            {
+                                formModel.map((item,index) => {
+                                    return (
+                                        <Grid item xs={12} md={6}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="doc_name">Doc Name*</InputLabel>
+                                    <InputLabel htmlFor={item.id}>{item.label}</InputLabel>
                                     <OutlinedInput
-                                        id="doc_name"
-                                        type="doc_name"
-                                        value={values.doc_name}
-                                        name="doc_name"
+                                        id={item.id}
+                                        type={item.type}
+                                        value={values[item.key]}
+                                        name={item.name}
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        placeholder="Doc"
+                                        placeholder={item.placeholder}
                                         fullWidth
-                                        error={Boolean(touched.doc_name && errors.doc_name)}
+                                        error={Boolean(touched[item.key] && errors[item.key])}
                                     />
-                                    {touched.doc_name && errors.doc_name && (
-                                        <FormHelperText error id="helper-text-doc_name">
-                                            {errors.doc_name}
+                                    {touched[item.key] && errors[item.key] && (
+                                        <FormHelperText error id={item.helper_error_id}>
+                                            {errors[item.key]}
                                         </FormHelperText>
                                     )}
                                 </Stack>
                             </Grid>
-                            <Grid item xs={12} md={6}>
-                                <Stack spacing={1}>
-                                    <InputLabel htmlFor="file">File*</InputLabel>
-                                    <OutlinedInput
-                                        fullWidth
-                                        error={Boolean(touched.file && errors.file)}
-                                        id="file"
-                                        type="file"
-                                        value={values.categpry}
-                                        name="file"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        inputProps={{}}
-                                    />
-                                    {touched.file && errors.file && (
-                                        <FormHelperText error id="helper-text-file">
-                                            {errors.category}
-                                        </FormHelperText>
-                                    )}
-                                </Stack>
-                            </Grid>
-                            <Grid item xs={12}>
-                            <Stack spacing={1}>
-                                    <InputLabel htmlFor="category">Category*</InputLabel>
-                                    <OutlinedInput
-                                        fullWidth
-                                        error={Boolean(touched.category && errors.category)}
-                                        id="category"
-                                        type="category"
-                                        value={values.category}
-                                        name="category"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder="Category"
-                                        inputProps={{}}
-                                    />
-                                    {touched.category && errors.category && (
-                                        <FormHelperText error id="helper-text-category">
-                                            {errors.category}
-                                        </FormHelperText>
-                                    )}
-                                </Stack>
-                            </Grid>
+                                    );
+                                })
+                            }
                             {errors.submit && (
                                 <Grid item xs={12}>
                                     <FormHelperText error>{errors.submit}</FormHelperText>
@@ -150,7 +119,7 @@ const AddLogForm = ({open, handleClose}) => {
                                         color="primary"
                                         size="small" variant="contained" sx={{ textTransform: 'capitalize' }}
                                     >
-                                        Create Doc
+                                        Create Log
                                     </Button>
                                 </AnimateButton>
                             </Grid>

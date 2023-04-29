@@ -4,19 +4,47 @@ import BlogItem from '../home/blogItem';
 import Search from 'layout/MainLayout/Header/HeaderContent/Search';
 import AddLogForm from './addLogForm';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadLogs } from 'store/reducers/logs';
+import { loadCategories, loadLogs, loadTypes } from 'store/reducers/logs';
+
+const formModel = [
+    {
+        'label': 'Description*',
+        'id': 'description',
+        'name': 'description',
+        'type': "text",
+        'placeholder': 'Description',
+        'key': 'description',
+        'helper_error_id': 'helper-text-description'
+    },
+    {
+        'label': 'Time Spent*',
+        'id': 'time_spent',
+        'name': 'time_spent',
+        'type': "text",
+        'placeholder': 'Time Spent',
+        'key': 'time_spent',
+        'helper_error_id': 'helper-text-time'
+    }
+]
+
 
 // Same item should be able to perform differently for different props
 const Logs = () => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const logsSt = useSelector((state) => state.logs)
+    const logsSt = useSelector((state) => state.logs);
+    const categories = useSelector((state) => state.logs);
+    const types = useSelector((state) => state.types);
     const dispatch = useDispatch();
+    console.log(types);
+    console.log(categories);
     
 
     useEffect(() => {
         dispatch(loadLogs());
+        dispatch(loadCategories());
+        dispatch(loadTypes());
     }, [])
 
     return (
@@ -26,7 +54,7 @@ const Logs = () => {
                 <Search />
                 </Grid>
                 <Grid item mt={0.5}>
-                <Button size="small" variant="contained" sx={{ textTransform: 'capitalize' }} onClick={handleOpen}>
+                <Button size="small" variant="contained" sx={{ textTransform: 'capitalize' }}>
                            Search
                         </Button>
                         </Grid>
@@ -38,7 +66,7 @@ const Logs = () => {
             </Grid>
             <Grid container mt={4}>
                 <Grid item>
-                    <AddLogForm open={open} handleClose={handleClose}/>
+                    <AddLogForm categories={categories} types={types} formModel={formModel} open={open} handleClose={handleClose}/>
                 </Grid>
             </Grid>
             <Grid container rowSpacing={2} columnSpacing={2.5}>
