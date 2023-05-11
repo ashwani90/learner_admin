@@ -19,11 +19,13 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 import AnimateButton from 'components/@extended/AnimateButton';
 import { strengthColor, strengthIndicator } from 'utils/password-strength';
+import Autocomplete from '@mui/material/Autocomplete';
 
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { createLogs } from 'store/reducers/logs';
+import TextField from '@mui/material/TextField';
 
 const style = {
     position: 'absolute',
@@ -39,9 +41,9 @@ const style = {
 
   
 
-const AddLogForm = ({open, handleClose, formModel}) => {
+const AddLogForm = ({open, handleClose, formModel, ...props}) => {
     const dispatch = useDispatch();
-
+    console.log(props);
     return (
         <Modal
         open={open}
@@ -54,6 +56,8 @@ const AddLogForm = ({open, handleClose, formModel}) => {
                 initialValues={{
                     description: '',
                     time_spent: '',
+                    category: '',
+                    type: '',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
@@ -80,8 +84,34 @@ const AddLogForm = ({open, handleClose, formModel}) => {
                         <Grid container spacing={3}>
                             {
                                 formModel.map((item,index) => {
+                                    if (item.type == 'autocomplete') {
+                                        return (
+                                            <Grid key={item.key} item xs={12} md={6}>
+                                <Stack spacing={1}>
+                                    <InputLabel htmlFor={item.id}>{item.label}</InputLabel>
+                                    <Autocomplete
+                                            disablePortal
+                                            id={item.id}
+                                            onChange={(event, newValue) => {
+                                                values[item.key] = newValue;
+                                            }}
+                                            options={props[item.data]}
+                                            getOptionLabel={(option) => option.name}
+                                            sx={{ width: 300 }}
+                                            renderInput={(params) => <TextField {...params} label={item.label} />}
+                                          />
+                                    {touched[item.key] && errors[item.key] && (
+                                        <FormHelperText error id={item.helper_error_id}>
+                                            {errors[item.key]}
+                                        </FormHelperText>
+                                    )}
+                                </Stack>
+                            </Grid>
+                                           
+                                        )
+                                    }
                                     return (
-                                        <Grid item xs={12} md={6}>
+                                        <Grid key={item.key} item xs={12} md={6}>
                                 <Stack spacing={1}>
                                     <InputLabel htmlFor={item.id}>{item.label}</InputLabel>
                                     <OutlinedInput

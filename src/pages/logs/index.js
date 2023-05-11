@@ -24,6 +24,26 @@ const formModel = [
         'placeholder': 'Time Spent',
         'key': 'time_spent',
         'helper_error_id': 'helper-text-time'
+    },
+    {
+        'type': "autocomplete",
+        'id': "category",
+        "data": "categories",
+        "label": "Category",
+        'name': 'category',
+        'placeholder': 'Category',
+        'key': 'category',
+        'helper_error_id': 'helper-text-category'
+    },
+    {
+        'type': "autocomplete",
+        'id': "type",
+        "data": "types",
+        "label": "Type",
+        'name': 'type',
+        'placeholder': 'Type',
+        'key': 'type',
+        'helper_error_id': 'helper-text-type'
     }
 ]
 
@@ -34,11 +54,10 @@ const Logs = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const logsSt = useSelector((state) => state.logs);
-    const categories = useSelector((state) => state.logs);
-    const types = useSelector((state) => state.types);
     const dispatch = useDispatch();
-    console.log(types);
-    console.log(categories);
+    console.log(logsSt);
+    let categories = logsSt.categories;
+    let types = logsSt.types;
     
 
     useEffect(() => {
