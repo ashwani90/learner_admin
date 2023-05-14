@@ -11,6 +11,7 @@ const Settings = Loadable(lazy(() => import('pages/settings')));
 const DocAnalysis = Loadable(lazy(() => import('pages/doc-analysis')));
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
 const Logs = Loadable(lazy(() => import('pages/logs')))
+const Newspaper = Loadable(lazy(() => import('pages/newspaper')))
 
 // render - sample page
 const SamplePage = Loadable(lazy(() => import('pages/extra-pages/SamplePage')));
@@ -38,6 +39,10 @@ const MainRoutes = {
         {
             path: 'settings',
             element: <Settings />
+        },
+        {
+            path: 'newspaper',
+            element: <Newspaper />
         },
         {
             path: 'analysis',

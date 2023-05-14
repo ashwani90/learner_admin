@@ -57,6 +57,14 @@ const dashboard = {
             icon: icons.BookOutlined,
             breadcrumbs: false
         },
+        {
+            id: 'news',
+            title: 'Newspaper',
+            type: 'item',
+            url: '/newspaper',
+            icon: icons.BookOutlined,
+            breadcrumbs: false
+        },
     ]
 };
 
