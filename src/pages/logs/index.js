@@ -5,6 +5,7 @@ import Search from 'layout/MainLayout/Header/HeaderContent/Search';
 import AddLogForm from './addLogForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadCategories, loadLogs, loadTypes } from 'store/reducers/logs';
+import * as Yup from 'yup';
 
 const formModel = [
     {
@@ -48,13 +49,52 @@ const formModel = [
 ]
 
 
+
+const bulkFormModel = [
+    {
+        'label': 'Content*',
+        'id': 'content',
+        'name': 'content',
+        'type': "textarea",
+        'placeholder': 'content',
+        'key': 'content',
+        'helper_error_id': 'helper-text-content'
+    }
+]
+
+const logInitialValues = {
+    description: '',
+    time_spent: '',
+    category: '',
+    type: '',
+    submit: null
+}
+
+const bulkLogInitialValues = {
+    content:'',
+    submit: null
+}
+
+const validationSchema = Yup.object().shape({
+    description: Yup.string().max(255).required('Description is required'),
+    time_spent: Yup.string().max(255).required('Time Spent is required'),
+});
+
+const bulkValidationSchema = Yup.object().shape({
+    content: Yup.string().required('Content is required'),
+});
+
 // Same item should be able to perform differently for different props
 const Logs = () => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [bulkOpen, setBulkOpen] = React.useState(false);
+    const handleBulkOpen = () => setBulkOpen(true);
+    const handleBulkClose = () => setBulkOpen(false);
     const logsSt = useSelector((state) => state.logs);
     const dispatch = useDispatch();
+    console.log("hello");
     console.log(logsSt);
     let categories = logsSt.categories;
     let types = logsSt.types;
@@ -82,14 +122,23 @@ const Logs = () => {
                             Add Log
                         </Button>
                         </Grid>
+                        <Grid item mt={0.5}>
+                <Button size="small" variant="contained" sx={{ textTransform: 'capitalize' }} onClick={handleBulkOpen}>
+                            Add Bulk Log
+                        </Button>
+                        </Grid>
+                        
             </Grid>
             <Grid container mt={4}>
                 <Grid item>
-                    <AddLogForm categories={categories} types={types} formModel={formModel} open={open} handleClose={handleClose}/>
+                    <AddLogForm validationSchema={validationSchema} initialValues={logInitialValues} buttonText="Create Log" categories={categories} types={types} formModel={formModel} open={open} handleClose={handleClose}/>
+                </Grid>
+                <Grid item>
+                    <AddLogForm validationSchema={bulkValidationSchema} initialValues={bulkLogInitialValues} buttonText="Create Bulk Log" formModel={bulkFormModel} open={bulkOpen} handleClose={handleBulkClose}/>
                 </Grid>
             </Grid>
             <Grid container rowSpacing={2} columnSpacing={2.5}>
-            { logsSt.logs.map((item,index) => {
+            { logsSt.logs.results && logsSt.logs?.results.length > 0 && logsSt.logs.results.map((item,index) => {
                 return (
                     <BlogItem key={index} item={item} isImagePresent={false} md={4} sx={6} xs={6} lg={4}/>
                 );

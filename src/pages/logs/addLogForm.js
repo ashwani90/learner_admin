@@ -15,7 +15,6 @@ import {
     Stack,
     Typography
 } from '@mui/material';
-import * as Yup from 'yup';
 import { Formik } from 'formik';
 import AnimateButton from 'components/@extended/AnimateButton';
 import { strengthColor, strengthIndicator } from 'utils/password-strength';
@@ -26,6 +25,60 @@ import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { createLogs } from 'store/reducers/logs';
 import TextField from '@mui/material/TextField';
+import TextareaAutosize from '@mui/base/TextareaAutosize';
+import { styled } from '@mui/system';
+
+const StyledTextarea = styled(TextareaAutosize)(
+    ({ theme }) => `
+    font-family: IBM Plex Sans, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 12px;
+    border-radius: 12px 12px 0 12px;
+    color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+    background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
+    border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
+    box-shadow: 0px 2px 2px ${theme.palette.mode === 'dark' ? grey[900] : grey[50]};
+  
+    &:hover {
+      border-color: ${blue[400]};
+    }
+  
+    &:focus {
+      border-color: ${blue[400]};
+      box-shadow: 0 0 0 3px ${theme.palette.mode === 'dark' ? blue[500] : blue[200]};
+    }
+  
+    // firefox
+    &:focus-visible {
+      outline: 0;
+    }
+  `,
+  );
+
+
+const blue = {
+    100: '#DAECFF',
+    200: '#b6daff',
+    400: '#3399FF',
+    500: '#007FFF',
+    600: '#0072E5',
+    900: '#003A75',
+  };
+
+const grey = {
+    50: '#f6f8fa',
+    100: '#eaeef2',
+    200: '#d0d7de',
+    300: '#afb8c1',
+    400: '#8c959f',
+    500: '#6e7781',
+    600: '#57606a',
+    700: '#424a53',
+    800: '#32383f',
+    900: '#24292f',
+  };
 
 const style = {
     position: 'absolute',
@@ -41,7 +94,7 @@ const style = {
 
   
 
-const AddLogForm = ({open, handleClose, formModel, ...props}) => {
+const AddLogForm = ({open, handleClose, formModel, buttonText, initialValues, validationSchema, ...props}) => {
     const dispatch = useDispatch();
     console.log(props);
     return (
@@ -53,17 +106,8 @@ const AddLogForm = ({open, handleClose, formModel, ...props}) => {
       >
         <Box sx={style}>
         <Formik
-                initialValues={{
-                    description: '',
-                    time_spent: '',
-                    category: '',
-                    type: '',
-                    submit: null
-                }}
-                validationSchema={Yup.object().shape({
-                    description: Yup.string().max(255).required('Description is required'),
-                    time_spent: Yup.string().max(255).required('Time Spent is required'),
-                })}
+                initialValues={initialValues}
+                validationSchema={validationSchema}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
                         console.log(values);
@@ -100,6 +144,26 @@ const AddLogForm = ({open, handleClose, formModel, ...props}) => {
                                             sx={{ width: 300 }}
                                             renderInput={(params) => <TextField {...params} label={item.label} />}
                                           />
+                                    {touched[item.key] && errors[item.key] && (
+                                        <FormHelperText error id={item.helper_error_id}>
+                                            {errors[item.key]}
+                                        </FormHelperText>
+                                    )}
+                                </Stack>
+                            </Grid>
+                                           
+                                        )
+                                    }
+                                    if (item.type == 'textarea') {
+                                        return (
+                                            <Grid key={item.key} item xs={12} md={12}>
+                                <Stack spacing={1}>
+                                    <InputLabel htmlFor={item.id}>{item.label}</InputLabel>
+                                    <StyledTextarea
+                                        aria-label="item.label"
+                                        minRows={10}
+                                        placeholder={item.placeholder}
+                                        />
                                     {touched[item.key] && errors[item.key] && (
                                         <FormHelperText error id={item.helper_error_id}>
                                             {errors[item.key]}
@@ -149,7 +213,7 @@ const AddLogForm = ({open, handleClose, formModel, ...props}) => {
                                         color="primary"
                                         size="small" variant="contained" sx={{ textTransform: 'capitalize' }}
                                     >
-                                        Create Log
+                                        {buttonText}
                                     </Button>
                                 </AnimateButton>
                             </Grid>
