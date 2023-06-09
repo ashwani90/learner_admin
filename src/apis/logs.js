@@ -17,7 +17,7 @@ const createLogs = async (payload) => {
 }
 
 const editLogs = async () => {
-    let data = await axios.get('http://0.0.0.0:8000/log');
+    let data = await axios.put('http://0.0.0.0:8000/log');
     return data;
 }
 
