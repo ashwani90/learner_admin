@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Grid } from '@mui/material';
 import NewsItem from './newsItem';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const Newspaper = () => {
@@ -10,7 +11,7 @@ const Newspaper = () => {
     console.log(newsSt);
 
     useEffect(() => {
-        dispatch(loadNewss());
+        // dispatch(loadNews());
     }, [])
 
     return (

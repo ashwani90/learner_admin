@@ -10,7 +10,7 @@ import ImageItem from './imageItem';
 
 const BlogItem = ({xs=12,sm=12,md=6,lg=6, isImagePresent=true, item={}, ...props}) => {
     return (
-        
+
             <Grid item xs={xs} sm={sm} md={md} lg={lg} sx={{ mb: -2.25 }}>
             <MainCard sx={{ mt: 2 }}>
                     <Stack spacing={3}>
@@ -27,7 +27,7 @@ const BlogItem = ({xs=12,sm=12,md=6,lg=6, isImagePresent=true, item={}, ...props
                             </Grid>
                             <Grid item>
                             <Typography variant="h6" color="secondary" noWrap>
-                                       User Description
+                                       {item.category}
                                     </Typography>
                                 {/* <AvatarGroup sx={{ '& .MuiAvatar-root': { width: 32, height: 32 } }}>
                                     <Avatar alt="Remy Sharp" src={avatar1} />
@@ -38,7 +38,7 @@ const BlogItem = ({xs=12,sm=12,md=6,lg=6, isImagePresent=true, item={}, ...props
                             </Grid>
                         </Grid>
                         { isImagePresent && <ImageItem /> }
-                        
+
                         <Grid container justifyContent="space-between" alignItems="center">
                         <Grid item>
                         <Button size="small" variant="contained" sx={{ textTransform: 'capitalize' }}>
@@ -47,7 +47,7 @@ const BlogItem = ({xs=12,sm=12,md=6,lg=6, isImagePresent=true, item={}, ...props
                             </Grid>
                             <Grid item>
                             <Typography variant="h6" color="secondary" noWrap>
-                                       Category
+                                       {item.type}
                                     </Typography>
                             {/* <AvatarGroup sx={{ '& .MuiAvatar-root': { width: 32, height: 32 } }}>
                                     <Avatar alt="Remy Sharp" src={avatar1} />
@@ -57,11 +57,11 @@ const BlogItem = ({xs=12,sm=12,md=6,lg=6, isImagePresent=true, item={}, ...props
                                 </AvatarGroup> */}
                             </Grid>
                         </Grid>
-                        
+
                     </Stack>
                 </MainCard>
             </Grid>
-    
+
                 );
 }
 

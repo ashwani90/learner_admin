@@ -48,7 +48,7 @@ const logs = createSlice({
     name: 'logs',
     initialState,
     reducers: {
-       
+
     },
     extraReducers: (builder) => {
         // Add reducers for additional action types here, and handle loading state as needed

@@ -6,6 +6,7 @@ import AddLogForm from './addLogForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadCategories, loadLogs, loadTypes } from 'store/reducers/logs';
 import * as Yup from 'yup';
+import bulkAddLogs from 'utils/bulkLog';
 
 const formModel = [
     {
@@ -52,7 +53,7 @@ const formModel = [
 
 const bulkFormModel = [
     {
-        'label': 'Content*',
+        'label': 'Content',
         'id': 'content',
         'name': 'content',
         'type': "textarea",
@@ -81,12 +82,13 @@ const validationSchema = Yup.object().shape({
 });
 
 const bulkValidationSchema = Yup.object().shape({
-    content: Yup.string().required('Content is required'),
+    content: Yup.string().required('Content is required')
 });
 
 // Same item should be able to perform differently for different props
 const Logs = () => {
     const [open, setOpen] = React.useState(false);
+    const [logsChanged, setLogsChanged] = React.useState(false)
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [bulkOpen, setBulkOpen] = React.useState(false);
@@ -94,14 +96,18 @@ const Logs = () => {
     const handleBulkClose = () => setBulkOpen(false);
     const logsSt = useSelector((state) => state.logs);
     const dispatch = useDispatch();
-    console.log("hello");
-    console.log(logsSt);
     let categories = logsSt.categories;
     let types = logsSt.types;
-    
 
     useEffect(() => {
-        dispatch(loadLogs());
+      dispatch(loadLogs());
+    }, [logsChanged])
+
+    const handleCreateChange = () => {
+      setLogsChanged(!logsChanged);
+    }
+
+    useEffect(() => {
         dispatch(loadCategories());
         dispatch(loadTypes());
     }, [])
@@ -127,14 +133,14 @@ const Logs = () => {
                             Add Bulk Log
                         </Button>
                         </Grid>
-                        
+
             </Grid>
             <Grid container mt={4}>
                 <Grid item>
-                    <AddLogForm validationSchema={validationSchema} initialValues={logInitialValues} buttonText="Create Log" categories={categories} types={types} formModel={formModel} open={open} handleClose={handleClose}/>
+                    <AddLogForm apiFunction={false} handleCreateChange={() => handleCreateChange()} validationSchema={validationSchema} initialValues={logInitialValues} buttonText="Create Log" categories={categories.results} types={types.results} formModel={formModel} open={open} handleClose={handleClose}/>
                 </Grid>
                 <Grid item>
-                    <AddLogForm validationSchema={bulkValidationSchema} initialValues={bulkLogInitialValues} buttonText="Create Bulk Log" formModel={bulkFormModel} open={bulkOpen} handleClose={handleBulkClose}/>
+                    <AddLogForm apiFunction={(data) => bulkAddLogs(data)} handleCreateChange={() => handleCreateChange()} validationSchema={bulkValidationSchema} initialValues={bulkLogInitialValues} buttonText="Create Bulk Log" formModel={bulkFormModel} open={bulkOpen} handleClose={handleBulkClose}/>
                 </Grid>
             </Grid>
             <Grid container rowSpacing={2} columnSpacing={2.5}>
@@ -143,10 +149,10 @@ const Logs = () => {
                     <BlogItem key={index} item={item} isImagePresent={false} md={4} sx={6} xs={6} lg={4}/>
                 );
             }) }
-            
+
             </Grid>
         </Grid>
-        
+
                 );
 }
 
