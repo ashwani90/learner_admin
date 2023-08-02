@@ -1,5 +1,6 @@
 const bulkAddLogs = (values) => {
   let payload =  parseData(values);
+  console.log(payload);
     if (payload.length > 0) {
       // Call api and save data
     } else {

@@ -16,6 +16,14 @@ const createLogs = async (payload) => {
     return data;
 }
 
+const createBulkLogs = async (payload) => {
+    var bodyFormData = new FormData();
+    bodyFormData.append('data', payload.payload);
+
+    let data = await axios.post('http://0.0.0.0:8000/bulk_log/', bodyFormData);
+    return data;
+}
+
 const editLogs = async () => {
     let data = await axios.put('http://0.0.0.0:8000/log');
     return data;
@@ -72,6 +80,7 @@ export default logsAPI = {
     fetchCategory: fetchCategories,
     fetchType: fetchTypes,
     createLog: createLogs,
+    createBulkLog: createBulkLogs,
     editLog: editLogs,
     createCategory: createCategories,
     editCategory: editCategories,

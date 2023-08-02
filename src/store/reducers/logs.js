@@ -42,6 +42,14 @@ export const createLogs = createAsyncThunk(
       }
 )
 
+export const createBulkLogs = createAsyncThunk(
+  '/logs/createBulk',
+  async (data, thunkAPI) => {
+      const response = await logsAPI.createBulkLog(data);
+      return response.data;
+    }
+)
+
 // ==============================|| SLICE - MENU ||============================== //
 
 const logs = createSlice({
@@ -57,6 +65,10 @@ const logs = createSlice({
           state.logs = action.payload
         });
         builder.addCase(createLogs.fulfilled, (state, action) => {
+            // Add status to state
+            state.logsCreated = true
+          });
+          builder.addCase(createBulkLogs.fulfilled, (state, action) => {
             // Add status to state
             state.logsCreated = true
           });
